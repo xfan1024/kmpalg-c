@@ -95,6 +95,9 @@ static inline void kmp_build_failure(const kmp_t * kmp)
         } else {
             failure[i] = j;
             j = 0;
+            if (KMPALG_CONFIG_COMPARER(pattern[i], pattern[j])) {
+                j++;
+            }
         }
     }
 }
