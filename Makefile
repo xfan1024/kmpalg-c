@@ -1,8 +1,10 @@
-.PYTHON: clean
+.PYTHON: clean test
 
 CC := cc
 
 all: search_in_stream kmp_test
+test: test.sh kmp_test
+	./test.sh
 
 search_in_stream: kmpalg.h search_in_stream.c
 	$(CC) -o search_in_stream  search_in_stream.c 

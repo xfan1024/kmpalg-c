@@ -54,10 +54,11 @@ void putnspeace(int n)
 
 int main(int argc, char *argv[])
 {
-    kmp_state_t failure[255];
-    kmp_t       kmp;
+    kmp_state_t  failure[255];
+    kmp_t        kmp;
     const char * pattern;
     const char * mainstr;
+    int          res = 0;
 
     if (argc != 2 && argc != 3) {
         return -1;
@@ -84,11 +85,12 @@ int main(int argc, char *argv[])
         printf("         ");
         if (ret < 0) {
             printf("not matched\n");
+            res = 1;
         } else {
             putnspeace(ret);
             printf("^\n");
         }
         printf("result: %d\n", ret);
     }
-    return 0;
+    return res;
 }
