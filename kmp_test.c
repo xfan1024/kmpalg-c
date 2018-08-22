@@ -52,13 +52,22 @@ void putnspeace(int n)
     }
 }
 
+int strindex(const char* str, const char* sub)
+{
+    const char* ret = strstr(str, sub);
+    if (ret) {
+        return ret - str;
+    } else {
+        return -1;
+    }
+}
+
 int main(int argc, char *argv[])
 {
     kmp_state_t  failure[255];
     kmp_t        kmp;
     const char * pattern;
     const char * mainstr;
-    int          res = 0;
 
     if (argc != 2 && argc != 3) {
         return -1;
@@ -80,17 +89,21 @@ int main(int argc, char *argv[])
     }
     putchar('\n');
     if (mainstr) {
-        int ret = kmp_search(&kmp, (uint8_t*)mainstr, strlen(mainstr));
+        int kmpres = kmp_search(&kmp, (uint8_t*)mainstr, strlen(mainstr));
+        int cres = strindex(mainstr, pattern);
         printf("mainstr: %s\n", mainstr);
-        printf("         ");
-        if (ret < 0) {
+        if (kmpres < 0) {
+            putnspeace(9);
             printf("not matched\n");
-            res = 1;
         } else {
-            putnspeace(ret);
+            putnspeace(kmpres+9);
+            printf("%s\n", pattern);
+            putnspeace(kmpres+9);
             printf("^\n");
         }
-        printf("result: %d\n", ret);
+        printf("kmpalg result: %d, strindex result: %d\n", kmpres, cres);
+        return !(kmpres == cres);
     }
-    return res;
+    return 0;
 }
+
